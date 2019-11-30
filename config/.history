@@ -1,0 +1,2 @@
+cd wamp64
+php -S localhost:8000/public
