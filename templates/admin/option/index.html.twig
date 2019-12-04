@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+ {% block title  'agence immobilliere' %}
+
+
+{% block body %}
+
+<div class="container mt-4">
+    <h1>Gerer les options</h1>
+
+    {% for message in app.flashes('success') %}
+
+    <div class="alert alert-success">
+    {{message}}
+    </div>
+    {% endfor %}
+   <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Action</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for option in more_options %}
+            <tr>
+                <td>{{option.name}}</td>
+                <td>
+                <a href="{{path('admin.more_option.edit', {id:option.id}) }}" class="btn btn-secondary">Editer</a>
+                <form action="{{ path('admin.more_option.delete', {id: option.id})}}" style="display: inline-block" method="post">
+                <input type="hidden" name="_method" value="DELETE" >
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_token' ~ option.id) }}" >
+                <button class="btn btn-danger">Supprimer</button>
+                </form>
+                </td>
+                
+            </tr>
+{% endfor %}
+            
+        </tbody>
+    </table>
+
+    <div class="text-right">
+    <a href="{{path('admin.more_option.new') }}" class="btn btn-primary">Ajouter une nouvelle option</a>
+    </div>
+
+</div>
+       
+
+{% endblock %}
+

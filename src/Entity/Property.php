@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -97,9 +99,18 @@ class Property
      */
     private $bedrooms;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\MoreOption", inversedBy="properties")
+     */
+    private $moreOptions;
+ 
+    
+
     public function __construct() {
 
     $this->created_at = new \DateTime();
+    $this->moreOptions = new ArrayCollection();
+   
 
     }
 
@@ -282,4 +293,34 @@ class Property
 
         return $this;
     }
+
+    /**
+     * @return Collection|MoreOption[]
+     */
+    public function getMoreOptions(): Collection
+    {
+        return $this->moreOptions;
+    }
+
+    public function addMoreOption(MoreOption $moreOption): self
+    {
+        if (!$this->moreOptions->contains($moreOption)) {
+            $this->moreOptions[] = $moreOption;
+            $moreOption->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMoreOption(MoreOption $moreOption): self
+    {
+        if ($this->moreOptions->contains($moreOption)) {
+            $this->moreOptions->removeElement($moreOption);
+            $moreOption->removeProperty($this);
+        }
+
+        return $this;
+    }
+
+    
 }

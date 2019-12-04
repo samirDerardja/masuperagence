@@ -1,4 +1,12 @@
-city: Ville
-address : Adresse
+City: Ville
+Address : Adresse
 'Invalid credentials.': 'The password you entered was invalid!'
 budjet_max: budjet maximale
+Price: prix
+Title : Titre
+Rooms: Chambre
+Bedrooms: Lits
+Floor: Etage
+Postale code: Code postale
+Heat : Chauffrage
+Sold : Vendu ?
