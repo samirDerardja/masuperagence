@@ -11,6 +11,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Routing\Annotation\Route;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -75,6 +77,8 @@ public function edit(Property $property, Request $request) {
    
 
     if($form->isSubmitted() && $form->isValid()) {
+
+       
         $this->em->flush();
         $this->addFlash('success', 'Bien modifié avec success');
         return $this->redirectToRoute('admin.property.index');
@@ -94,13 +98,12 @@ return $this->render('admin/property/edit.html.twig', [
 public function delete(Property $property, Request $request) {
  
   
-    if($this->isCsrfTokenValid('delete_token', $property->getId(), $request->get('_token'))){
+    // if($this->isCsrfTokenValid('delete_token', $property->getId(), $request->get('_token'))){
     $this->em->remove($property);
     $this->em->flush();
     $this->addFlash('success', 'Bien supprimer avec succes');
-    return new Response('suppresion');
     
-}
+// }
 return $this->redirectToRoute('admin.property.index');
 
 }
