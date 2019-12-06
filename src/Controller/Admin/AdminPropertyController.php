@@ -101,7 +101,7 @@ public function delete(Property $property, Request $request) {
     // if($this->isCsrfTokenValid('delete_token', $property->getId(), $request->get('_token'))){
     $this->em->remove($property);
     $this->em->flush();
-    $this->addFlash('success', 'Bien supprimer avec succes');
+    $this->addFlash('success', 'Bien supprimé avec succes');
     
 // }
 return $this->redirectToRoute('admin.property.index');
