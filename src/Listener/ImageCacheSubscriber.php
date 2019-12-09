@@ -35,7 +35,7 @@ private $cache;
     public function preRemove(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if(!$entity instanceof UploadedFile){
+        if(!$entity instanceof Picture){
                 return;
  }
 
@@ -45,10 +45,10 @@ private $cache;
 
     public function preUpdate(PreUpdateEventArgs $args) {
         $entity = $args->getEntity();
-        if(!$entity instanceof UploadedFile){
+        if(!$entity instanceof Picture){
                 return;
  }
-       if($entity->getImageFile() instanceof UploadedFile) {
+       if($entity->getImageFile() instanceof Picture) {
 
           $this->cache->remove($this->uploader->asset($entity, 'imageFile'));
 

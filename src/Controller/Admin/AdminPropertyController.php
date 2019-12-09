@@ -12,19 +12,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Routing\Annotation\Route;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+
 
 class AdminPropertyController extends AbstractController
 {
 
     private $repository;
 
+
     public function __construct(PropertyRepository $repository , EntityManagerInterface $em) {
 
         $this->repository = $repository;
         $this->em = $em;
+ 
+      
     }
 
     /**
@@ -91,23 +96,40 @@ return $this->render('admin/property/edit.html.twig', [
 ]);
 
 }
+ 
 
 /**
 *@route("/admin/property/{id}", name="admin.property.delete", methods="DELETE")
 */
 public function delete(Property $property, Request $request) {
  
-  
-    // if($this->isCsrfTokenValid('delete_token', $property->getId(), $request->get('_token'))){
+   
+    $submittedToken = $request->request->get('token');
+    if($this->isCsrfTokenValid('delete-item', $submittedToken)){
+        
     $this->em->remove($property);
     $this->em->flush();
     $this->addFlash('success', 'Bien supprimé avec succes');
     
-// }
+   }
 return $this->redirectToRoute('admin.property.index');
 
 }
 
+public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class'      => PropertyType::class,
+            // enable/disable CSRF protection for this form
+            'csrf_protection' => true,
+            // the name of the hidden HTML field that stores the token
+            'csrf_field_name' => '_token',
+            // an arbitrary string used to generate the value of the token
+            // using a different string for each form improves its security
+            'csrf_token_id'   => 'task_item',
+        ]);
+    }
 
+
+ 
 }
-
