@@ -23,14 +23,14 @@
             </tr>
         </thead>
         <tbody>
-        {% for property in properties %}
+        {% for property in properties %} 
             <tr>
                 <td>{{property.title}}</td>
                 <td>
                 <a href="{{path('admin.property.edit', {id:property.id}) }}" class="btn btn-secondary">Editer</a>
-                <form action="{{ path('admin.property.delete', {id: property.id})}}" style="display: inline-block" method="post">
+                <form action="{{ path('admin.property.delete', {id:property.id})}}" style="display: inline-block" method="post">
                 <input type="hidden" name="_method" value="DELETE" >
-                {# <input type="hidden" name="_token" value="{{ csrf_token('delete_token' ~ property.id) }}" > #}
+                <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}"/>
                 <button class="btn btn-danger">Supprimer</button>
                 </form>
                 </td>

@@ -1,9 +1,9 @@
 <div class="card text-left">
   <img class="card-img-top" src="holder.js/100px180/" alt="">
-  {% if property.filename %}
-<img src="{{vich_uploader_asset(property , 'imageFile') | imagine_filter('thumb') }}" alt="card-img-top" />
+  {% if property.picture %}
+<img src="{{vich_uploader_asset(property.picture , 'imageFile') | imagine_filter('thumb') }}" alt="card-img-top" />
   {% else %}
-  <img src= " {{'/images/properties/empty.jpg' | imagine_filter('thumb') }}" alt="card-img-top" />
+  <img src= " {{'/images/empty.jpg' | imagine_filter('thumb') }}" alt="card-img-top" />
   {% endif %}
   <div class="card-body">
   

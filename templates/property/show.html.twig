@@ -3,8 +3,25 @@
 {%  block title property.title %}
 
 {%  block body %}
-    <div class="container mt-4"> 
-   .
+    <div class="jumbotron"> 
+   <div class="container">
+
+    {% for message in app.flashes('success') %}
+
+    <div class="alert alert-success">
+    {{message}}
+    </div>
+    {% endfor %}
+
+
+    {% if not form.vars.valid  %}
+ <div class="alert alert-danger">
+    Erreur lors de l' envoie 
+    </div>
+
+{% endif %}
+
+
         <div class="row">
 
             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
@@ -19,14 +36,38 @@
 <h1>{{ property.title }}</h1>
                 <h2>{{ property.rooms }} pieces - {{ property.surface }} m2</h2>
                 <div class="text-primary" style="font-size: 4em; font-weight:bold;">{{ property.formatedPrice }} €</div>
-                <a href="#" class="btn btn-primary">contactez  l' agence</a>
+                <a href="#" class="btn btn-primary" id="contactButton" {% if form.vars.submitted %} style="display:none" {% endif %}>contactez  l' agence</a>
+
+                <div id="contactForm" class="mt-4" {% if not form.vars.submitted %} style="display:none" {% endif %}>
+                {{ form_start(form) }}
+                <div class="row">
+                <div class="col">{{ form_row(form.firstName) }}</div>
+                <div class="col">{{ form_row(form.lastName) }}</div>
+                </div>
+                       <div class="row">
+                <div class="col">{{ form_row(form.email) }}</div>
+                <div class="col">{{ form_row(form.phone) }}</div>
+         </div>
+                
+                {{ form_rest(form) }}
+                <div class="form-group">
+                  <button class="btn btn-primary">Envoyer</button>
+                </div>
+                {{ form_end(form) }}
+      </div>
             </div>
         </div>
+        </div>
+        </div>
+       
 
+
+<div class="container mt-4">
         <p>
             {{ property.description | nl2br}}
         </p>
-
+        </div>
+<div class="container">
         <div class="row">
             <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 <h2>Caractéristique</h2>
@@ -61,6 +102,7 @@
             </div>
         </div>
 
+    </div>
     </div>
 
 {% endblock %}
